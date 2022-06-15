@@ -1,0 +1,83 @@
+<nav class="z-40 flex fixed top-0 w-full justify-between flex-wrap bg-blue-600 px-6 py-2 shadow-lg">
+    <div class="flex items-center mx-1 justify-center">
+        <a [routerLink]="['/']">
+            <img class="block sm:mx-2 mx-0 flex-shrink-0 h-16 sm:h-18" src="assets/softserve_nobg.png">
+        </a>
+    </div>
+    <div class="flex items-center flex-shrink-0 text-white mr-6">
+        <a [routerLink]="['/']">
+            <span class=" font-serif text-xl tracking-tight">{{title}}</span>
+        </a>
+    </div>
+    <div class="block mt-4 lg:hidden" (click)="menu= !menu">
+        <button
+            class="flex items-center px-3 py-2 border rounded text-teal-200 border-teal-400 hover:text-white hover:border-white">
+            <svg class="fill-current h-4 w-4" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <title>Menu</title>
+                <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+            </svg>
+        </button>
+    </div>
+    <div 
+        [ngClass]="menu ? 'w-full block flex-grow lg:flex lg:items-center lg:w-auto' : 'hidden w-full block flex-grow lg:flex lg:items-center lg:w-auto'">
+        <div class="text-sm lg:flex-grow">
+            <a [routerLink]="['/ratings']"
+                class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
+                Ratings
+            </a>
+            <a [routerLink]="['/community']"
+                class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
+                Community
+            </a>
+            <a [routerLink]="['/blog']" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white">
+                Blog
+            </a>
+        </div>
+        <div *ngIf="!loggedIn; else loggedOut" class="flex">
+            <div class="px-1 ">
+                <button (click)="openDialog()"
+                    class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-blue-600 hover:bg-blue-100 mt-4 lg:mt-0">
+                    Log In</button>
+            </div>
+        </div>
+        <ng-template #loggedOut class="flex">
+            <div class="px-1 ">
+                <button (click)="openDialog()"
+                    class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-blue-600 hover:bg-blue-100 mt-4 lg:mt-0">
+                    Log Out</button>
+            </div>
+            <div class="px-1">
+                <button [routerLink]="['/profile']"
+                    class="inline-block bg-gray-100 text-sm px-4 py-2 leading-none border rounded text-black border-white hover:border-white hover:text-white hover:bg-gray-600 mt-4 lg:mt-0">
+                    Profile</button>
+            </div>
+        </ng-template>
+    </div>
+</nav>
+
+
+<div class="m-3 mt-32">
+    <router-outlet></router-outlet>
+</div>
+<br><br><br>
+<div class="max-w-lg mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+    <div class="sm:flex sm:items-center px-6 py-4">
+        <div
+            class="flex items-center justify-center sm:flex-col sm:w-24 sm:h-24 sm:border sm:border-gray-500 sm:rounded-full">
+            <img class="block sm:mx-auto mx-0 flex-shrink-0 h-16 sm:h-12"
+                src="https://angular.io/assets/images/logos/angular/angular.svg" alt="Angular Logo" />
+            <img class="block sm:mx-auto mx-0 flex-shrink-0 h-16 sm:h-12"
+                src="https://tailwindcss.com/android-chrome-512x512.png" alt="Tailwind CSS Logo" />
+            <!-- <img class="block sm:mx-auto mx-0 flex-shrink-0 h-16 sm:h-12"
+                src="https://memorynotfound.com/wp-content/uploads/spring-boot-logo.png" alt="Spring Boot Logo" /> -->
+        </div>
+
+        <div class="mt-4 sm:mt-0 sm:ml-4 text-center ">
+
+            <p class="text-sm leading-tight text-gray-600">
+                Built with Tailwind CSS, Angular CLI, Spring Boot,
+                Lombok, Docker, PostgreSQL and AWS,
+            </p>
+        </div>
+    </div>
+</div>

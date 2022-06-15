@@ -1,0 +1,47 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: "Rubik", sans-serif; }
+.mat-slider {
+    width: 100%;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+}
+.mat-column-rank {
+    /* word-wrap: break-word !important;
+    white-space: unset !important;
+    flex: 0 0 30% !important; */
+    padding-left: .5rem !important;
+    padding-right: .5rem !important;
+    width: 10% !important;
+  }
+  .mat-column-brand {
+    /* word-wrap: break-word !important;
+    white-space: unset !important;
+    flex: 0 0 20% !important;  */
+    padding-right: .5rem !important;
+    width: 30% !important;
+  }
+  .mat-column-flavor {
+    /* word-wrap: break-word !important;
+    white-space: unset !important;
+    flex: 0 0 35% !important; */
+    width: 50% !important;
+  }
+  .mat-column-avgRating {
+    /* word-wrap: break-word !important;
+    white-space: unset !important;
+    flex: 0 0 15% !important; */
+    padding-left: .5rem !important;
+    padding-right: .5rem !important;
+    width: 10% !important;
+    text-align: center;
+  }
+
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;

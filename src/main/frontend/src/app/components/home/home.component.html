@@ -1,0 +1,167 @@
+<h1
+    class="z-0 transition ease-out duration-700 transform hover:-translate-y-1 hover:scale-125 my-6 font-serif text-4xl text-center text-white">
+    Your guide to the world of ice cream</h1>
+<div class="flex flex-col md:flex-row content-start justify-center ">
+    <div class=" inline-block max-w-sm rounded my-4 mx-2 lg:m-6 bg-white overflow-hidden shadow-lg lg:w-2/4">
+        <div class="px-4 py-4">
+            <h2
+                class="transition ease-out duration-700 transform hover:-translate-y-1 hover:scale-125 font-bold text-center text-xl mb-2">
+                Highest Rated All-Time</h2>
+            <p class=" text-gray-700 text-sm text-center">These are currently at the top of the Ice Cream Ratings
+                leaderboard</p>
+            <hr><br>
+            <table mat-table [dataSource]="tableData" class="mat-elevation-z8 w-full table-auto">
+                <ng-container matColumnDef="rank" class="">
+                    <th mat-header-cell *matHeaderCellDef>No.</th>
+                    <td mat-cell *matCellDef="let element; let i = index;">{{i+1}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="brand">
+                    <th mat-header-cell *matHeaderCellDef>Brand</th>
+                    <td mat-cell *matCellDef="let element">{{element.brand}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="flavor">
+                    <th mat-header-cell *matHeaderCellDef>Flavor</th>
+                    <td mat-cell *matCellDef="let element">{{element.flavor}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="avgRating">
+                    <th mat-header-cell *matHeaderCellDef>Avg. Rating</th>
+                    <td mat-cell *matCellDef="let element">{{element.avgRating/10.0 | number: '1.1'}}</td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </div>
+    </div>
+    <div class="inline-block max-w-sm rounded my-4 mx-2 lg:m-6 bg-white overflow-hidden shadow-lg lg:w-2/4">
+        <div class="px-6 py-4">
+            <h2
+                class="transition ease-out duration-700 transform hover:-translate-y-1 hover:scale-125 font-bold text-center text-xl mb-2">
+                Rate Ice Cream!</h2>
+            <p class=" text-gray-700 text-sm text-center">Contribute to the largest known open-source ice cream
+                taste-tasting database in the world!</p>
+            <hr><br>
+            <p class="text-gray-700 text-base">
+                Give your rating to:
+            </p>
+
+            <form [formGroup]="ratingForm" (ngSubmit)="ratingSubmit()">
+                <div class="mb-4">
+                    <label for="brand" class="block text-gray-700 font-bold"><i class="material-icons">search</i><span
+                            class="align-top"> Brand</span></label>
+                    <input formControlName="brand" id="brand" type="text" [matAutocomplete]="bran"
+                        [ngClass]="ratingForm.get('brand').valid || ratingForm.get('brand').pristine ? 'bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight bg-white focus:outline-none focus:bg-white focus:border-blue-500' : 'bg-gray-200 appearance-none border-2 border-red-500 rounded w-full py-2 px-4 text-gray-700 leading-tight outline-none bg-white focus:outline-none focus:bg-white focus:border-blue-500'">
+                    <!-- class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight bg-white focus:outline-none focus:bg-white focus:border-blue-500" -->
+                    <mat-autocomplete #bran=matAutocomplete>
+                        <mat-option *ngFor="let brand of filteredBrands | async" [value]="brand">
+                            {{brand}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <p [hidden]="ratingForm.get('brand').valid || ratingForm.get('brand').pristine"
+                        class="text-red-500 text-xs italic">
+                        Please choose one of the brands in the database.</p>
+                </div>
+                <div class="mb-4">
+                    <label for="flavor" class="block text-gray-700 font-bold"><i class="material-icons">search</i><span
+                            class="align-top"> Flavor</span></label>
+                    <input formControlName="flavor" id="flavor" type="text" [matAutocomplete]="flav"
+                        class="bg-gray-200 disabled:bg-gray-400 appearance-none disabled:pointer border-2 border-gray-200 disabled:border-gray-400 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500">
+                    <mat-autocomplete #flav=matAutocomplete>
+                        <mat-option *ngFor="let flavor of filteredFlavors | async" [value]="flavor">
+                            {{flavor}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </div>
+                <div class="mb-4">
+                    <label for="flavor" class="content-end block text-gray-700 font-bold"><i
+                            class="material-icons">create</i><span class="align-top"> Review</span></label>
+                    <textarea id="description" formControlName="description"
+                        class="bg-gray-200 disabled:bg-gray-400 appearance-none disabled:pointer border-2 border-gray-200 disabled:border-gray-400 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500 h-40 rounded shadow-lg"></textarea>
+                </div>
+                <div formGroupName="rating">
+                    <div class="mb-4">
+                        <label for="appearance" class="block text-gray-700 font-bold"><span class="align-top">
+                                Appearance</span></label>
+                        <div class="flex justify-between"><span>1</span>
+                            <mat-slider formControlName="appearance" min="1" max="5" step="1" value="1" id="appearance"
+                                tickInterval="1" thumbLabel="true"></mat-slider>
+                            <span>5</span>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label for="taste" class="block text-gray-700 font-bold"><span class="align-top">
+                                Flavor</span></label>
+                                <div class="flex justify-between"><span>1</span>
+                        <mat-slider formControlName="taste" min="1" max="10" step="1" value="1" id="taste"
+                            tickInterval="1" thumbLabel="true"></mat-slider>
+                            <span>10</span>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label for="aroma" class="block text-gray-700 font-bold"><span class="align-top"> Texture</span>
+                        </label>
+                        <div class="flex justify-between"><span>1</span>
+                        <mat-slider formControlName="aroma" min="1" max="5" step="1" value="1" id="aroma"
+                            tickInterval="1" thumbLabel="true"></mat-slider>
+                            <span>5</span>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label for="feel" class="block text-gray-700 font-bold"><span class="align-top">
+                                Weight</span></label>
+                                <div class="flex justify-between"><span>1</span>
+                        <mat-slider formControlName="feel" min="1" max="5" step="1" value="1" id="feel" tickInterval="1"
+                            thumbLabel="true"></mat-slider>
+                            <span>5</span>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label for="overall" class="block text-gray-700 font-bold"><span class="align-top">
+                                Overall</span></label>
+                                <div class="flex justify-between"><span>1</span>
+                        <mat-slider formControlName="overall" min="1" max="25" step="1" value="1" id="overall"
+                            tickInterval="1" thumbLabel="true"></mat-slider>
+                            <span>25</span>
+                        </div>
+                    </div>
+                    <div class="mb-4 flex justify-between">
+                        <label for="score" class="inline-block text-gray-700 font-bold mb-2">Total Score:</label>
+                        <div class="inline-block content-start ">
+                            <i class="material-icons text-yellow-400">star</i>
+                            <i *ngIf="score>19" class="material-icons text-yellow-400">star</i>
+                            <i *ngIf="score>29" class="material-icons text-yellow-400">star</i>
+                            <i *ngIf="score>39" class="material-icons text-yellow-400">star</i>
+                            <i *ngIf="score>48" class="material-icons text-yellow-400">star</i>
+                            <span *ngIf="score==undefined" class="align-top px-1">n/a</span><span
+                                *ngIf="score!=undefined" class="align-top px-1">{{score/10}} </span>
+                        </div>
+                    </div>
+                    <button type="submit" [disabled]="!ratingForm.valid"
+                        class="bg-blue-500 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Submit</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<h1
+    class="z-0 transition ease-out duration-700 transform hover:-translate-y-1 hover:scale-125 my-6 font-serif text-4xl text-center text-white">
+    Who's Cream Will reign Supreme?</h1>
+
+<div class="max-w-lg mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+    <div class="sm:flex sm:items-center px-6 py-4">
+
+        <div class="mt-4 sm:mt-0 sm:ml-4 text-center ">
+
+            <p class="text-sm leading-tight text-gray-600">
+                If you don't see a brand/flavor here you like, just send an email to: admin@rateicecream.com
+            </p>
+        </div>
+    </div>
+</div>
+
+<br><br>
